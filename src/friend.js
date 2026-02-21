@@ -882,7 +882,6 @@ async function checkFriends() {
         if (friendsToVisit.length === 0) return false;
 
         let totalActions = { steal: 0, water: 0, weed: 0, bug: 0, putBug: 0, putWeed: 0 };
-        let visitedCount = 0;
 
         for (let i = 0; i < friendsToVisit.length; i++) {
             const friend = friendsToVisit[i];
@@ -892,7 +891,6 @@ async function checkFriends() {
                 break;
             }
 
-            visitedCount++;
             try {
                 await visitFriend(friend, totalActions, state.gid);
             } catch (e) {
@@ -923,8 +921,8 @@ async function checkFriends() {
         if (totalActions.putWeed > 0) summary.push(`放草${totalActions.putWeed}`);
         
         if (summary.length > 0) {
-            log('好友', `巡查 ${visitedCount} 人 (共 ${friendsToVisit.length} 人) → ${summary.join('/')}`, {
-                module: 'friend', event: 'friend_cycle', result: 'ok', visited: visitedCount, total: friendsToVisit.length, summary
+            log('好友', `巡查 ${friendsToVisit.length} 人 → ${summary.join('/')}`, {
+                module: 'friend', event: 'friend_cycle', result: 'ok', visited: friendsToVisit.length, summary
             });
         }
         isFirstFriendCheck = false;
